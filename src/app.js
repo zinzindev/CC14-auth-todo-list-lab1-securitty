@@ -1,19 +1,25 @@
 const express = require('express');
+const cors = require('cors');
 
-// const db = require('./models') // sync เสร็จแล้วลบ(comment)ออก
-// db.sequelize.sync() // sync เสร็จแล้วลบ(comment)ออก
+// const { sequelize } = require('./models'); // sync เสร็จแล้วลบ(comment)ออก
+// sequelize.sync({ alter: true }); // sync เสร็จแล้วลบ(comment)ออก
 
 const authRoute = require('./routes/authRoute');
+const todoRoute = require('./routes/todoRoute');
 
+const authenticateMiddleware = require('./middlewares/authenticate');
 const errorMiddleware = require('./middlewares/error');
 const notFoundMiddleware = require('./middlewares/notFound');
 
 const app = express();
 
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.use('/auth', authRoute)
+app.use('/auth', authRoute);
+// app.use(authenticateMiddleware);
+app.use('/todos', authenticateMiddleware, todoRoute);
 
 app.use(notFoundMiddleware);
 app.use(errorMiddleware);
