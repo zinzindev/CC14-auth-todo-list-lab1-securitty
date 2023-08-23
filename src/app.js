@@ -20,7 +20,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.use('/auth', authRoute);
-// app.use(authenticateMiddleware);
 app.use('/todos', authenticateMiddleware, todoRoute);
 
 app.use(notFoundMiddleware);
