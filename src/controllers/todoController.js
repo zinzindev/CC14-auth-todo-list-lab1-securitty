@@ -8,10 +8,16 @@ exports.createTodo = async (req, res, next) => {
 		res.status(201).json({ todo });
 	} catch (error) {
 		next(error);
-	  }
+	}
 };
 exports.getAllTodo = async (req, res, next) => {
 	try {
+		const todos = await Todo.findAll({
+			where: { userId: req.user.id },
+			attributes: ['id', 'title', 'completed'],
+			order: [['id', 'DESC']],
+		});
+		res.status(200).json({ todos });
 	} catch (error) {
 		next(error);
 	}
