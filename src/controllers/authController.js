@@ -1,4 +1,4 @@
- const bcrypt = require('bcryptjs');
+const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 const { User, Todo } = require('../models');
@@ -27,16 +27,12 @@ exports.login = async (req, res, next) => {
 		const user = await User.findOne({ where: { username } });
 
 		if (!user) {
-			return res
-				.status(400)
-				.json({ message: 'invalid username or password' });
+			return res.status(400).json({ message: 'invalid username or password' });
 		}
 
 		const isCorrectPassword = await bcrypt.compare(password, user.password);
 		if (!isCorrectPassword) {
-			return res
-				.status(400)
-				.json({ message: 'invalid username or password' });
+			return res.status(400).json({ message: 'invalid username or password' });
 		}
 
 		const payload = {
@@ -45,7 +41,9 @@ exports.login = async (req, res, next) => {
 			email: user.email,
 		};
 
-		const token = jwt.sign(payload, 'datascience', { expiresIn: '30d' });
+		const token = jwt.sign(payload, process.env.JWT_SECRET_KEY || 'secret_key', {
+			expiresIn: '30d',
+		});
 
 		res.status(200).json({ message: 'success login', token });
 	} catch (error) {

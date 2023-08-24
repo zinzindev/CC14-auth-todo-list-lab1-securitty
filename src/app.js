@@ -1,7 +1,9 @@
 // Fontend = CC14-react-secondary-todo-list  -> on github
 
-const express = require('express');
+require('dotenv').config();
+
 const cors = require('cors');
+const express = require('express');
 
 // const { sequelize } = require('./models'); // sync เสร็จแล้วลบ(comment)ออก
 // sequelize.sync({ alter: true }); // sync เสร็จแล้วลบ(comment)ออก
@@ -25,4 +27,6 @@ app.use('/todos', authenticateMiddleware, todoRoute);
 app.use(notFoundMiddleware);
 app.use(errorMiddleware);
 
-app.listen(8007, () => console.log('server running on port 8007'));
+// process.env = { PORT: '8007' };
+const port = process.env.PORT || 8000;
+app.listen(port, () => console.log(`server running on port: ${port}`));
