@@ -34,9 +34,9 @@ exports.updateTodo = async (req, res, next) => {
 		next(error);
 	}
 };
-exports.deleteTodo = async (req, res, next) => {
+exports. deleteTodo = async (req, res, next) => {
 	try {
-		// const { id } = req.params;
+		const { id } = req.params;
 		// const result = await Todo.destroy({ where: { id } }); // return เป็นจำนวนแถวที่ลบ
 		// if (result === 0) {
 		// 	return res.status(400).json({ message: 'todo with this id does not exists' });
